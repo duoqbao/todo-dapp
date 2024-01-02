@@ -13,7 +13,7 @@ export function useTodo(connection: anchor.web3.Connection, publicKey: PublicKey
     const anchorWallet = useAnchorWallet()
     const [transactionPending, setTransactionPending] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
-    const [lastTodo, setLastTodo] = useState<number>(0)
+    const [lastTodo, setLastTodo] = useState(0)
     const [initialized, setInitialized] = useState<boolean>(false);
     const [todos, setTodos] = useState<InterfaceTodoAccount[] | any>([])
     // 
@@ -31,7 +31,7 @@ export function useTodo(connection: anchor.web3.Connection, publicKey: PublicKey
                 try {
                     setLoading(true)
                     const [profilePda, profileBump] = findProgramAddressSync([utf8.encode('USER_STATE'), publicKey.toBuffer()], program.programId);
-                    const profileAccount = await program.account.userProfile.fetch(profilePda)
+                    const profileAccount = await program.account.userProfile.fetch(profilePda) as any
                     if (profileAccount) {
                         setLastTodo(profileAccount?.lastTodo)
                         setInitialized(true)
